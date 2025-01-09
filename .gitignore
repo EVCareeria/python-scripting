@@ -2,3 +2,4 @@ venv
 .venv
 chromedriver
 myStuff.txt
+__pycache__
