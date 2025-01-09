@@ -4,6 +4,8 @@ from selenium.webdriver.chrome.service import Service
 import time
 import sys
 
+from helper_functions import btn_click_classname, btn_click_css_selector
+
 arguments = sys.argv
 
 service = Service(executable_path="./chromedriver")
@@ -19,13 +21,12 @@ password = driver.find_element(By.ID, "password")
 username.send_keys(arguments[2])
 password.send_keys(arguments[3])
 
-login_button = driver.find_element(By.CLASS_NAME, "login-page-primary-button")
-login_button.click()
+btn_click_classname(driver, By, time, "login-page-primary-button")
 
-time.sleep(1)
+btn_click_classname(driver, By, time, "login-page-primary-button")
 
-login_button = driver.find_element(By.CLASS_NAME, "login-page-primary-button")
-login_button.click()
+btn_click_css_selector(driver, By, time, "button.dashboard-show-bank-statement")
+
 time.sleep(60)
 
 driver.quit()
