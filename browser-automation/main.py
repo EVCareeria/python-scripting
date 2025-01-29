@@ -60,7 +60,7 @@ selected_months = driver.find_elements(By.CSS_SELECTOR, 'div.month-timeline-item
 # Open file to write output
 
 # Gets all transaction data and stores them in csv's and images folder under correct months
-#transactions_data(driver, By, WebDriverWait, EC, time, selected_months, Csv)
+transactions_data(driver, By, WebDriverWait, EC, time, selected_months, Csv)
 
 time.sleep(60)
 
