@@ -1,20 +1,21 @@
+from time import sleep
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
-from helper_functions import btn_click_classname, btn_click_css_selector, btn_click_xpath_selector, scrape_account_transactions
-import csv_module
+from helper_functions import btn_click_classname, btn_click_css_selector, btn_click_xpath_selector
+from documents import get_documents
+from csv_module import Csv
+from transactions import transactions_data
 import time
 import os
 
 # Remove old file used for keeping track of the current month
-if(os.path.isfile("demofile2.txt")):
+if os.path.isfile("demofile2.txt"):
     os.remove("demofile2.txt")
-
-# Create base template csv with headers
-csv_module.create_csv()
 
 options = Options()
 download_dir = os.path.join(os.getcwd(), "images") # Changing default chrome download directory for files
@@ -26,6 +27,7 @@ prefs = {
 }
 
 options.add_experimental_option("prefs", prefs)
+#options.add_argument("--headless=new") # Disables browser taking focus while running the script
 
 # Reading file with url, credentials, etc.
 with open('../myStuff.txt') as f:
@@ -54,53 +56,17 @@ btn_click_classname(driver, By, time, "login-page-primary-button")
 
 btn_click_css_selector(driver, By, time, "button.dashboard-show-bank-statement")
 
-selected_months = driver.find_elements(By.XPATH, '/html/body/div[1]/div[1]/div[2]/div/div/div[2]')
+selected_months = driver.find_elements(By.CSS_SELECTOR, 'div.month-timeline-item.completed.hideEvents')
 # Open file to write output
-with open("demofile2.txt", "a") as f:
-    for month in selected_months:
-        # Get text of each element
-        print(month.text)
-        f.write(month.text + "\n")  # Adding newline for separation
-        
-        # Wait until the element is clickable
-        try:
-            month_button = month.find_element(By.XPATH, './/button')  # Use relative XPath to find the button within 'month'
 
-            WebDriverWait(driver, 10).until(EC.element_to_be_clickable(month_button))
-            # Perform the click
-            month_button.click()
-            print(f"Clicked on: {month.text}")
+# Gets all transaction data and stores them in csv's and images folder under correct months
+#transactions_data(driver, By, WebDriverWait, EC, time, selected_months, Csv)
 
-            try:
-                wait = WebDriverWait(driver, 4)
+time.sleep(60)
 
-                wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="main"]/div/div[2]/div[1]/div/div/div/div[3]')))
-                all_sales = month.find_elements(By.CSS_SELECTOR, 'div.list-item.status-ok.clickable')
-                print(f"Count of items: {len(all_sales)}")
+# Gets all documents and sorts them by year by adding them to directories
+get_documents(driver, By, time, WebDriverWait, EC)
 
-                for sale in range(len(all_sales)):
-                    try:
-                        print(f"Current_sale: {sale}")
-                        time.sleep(2)
-                        current_sales = driver.find_elements(By.CSS_SELECTOR, 'div.list-item.status-ok.clickable')
-                        time.sleep(2)
-                        print(f"Text value: {current_sales[sale].text}")
-                        current_sales[sale].click()
-                        data = scrape_account_transactions(driver, By, csv_module)  # Reads the table data and downloads file if available
-                        time.sleep(10)
-                        driver.back()
-                    except Exception:
-                        print("Something went wrong here with", sale)
-
-            except Exception as e:
-                print(f"Failed to click items: {e}")
-            
-            WebDriverWait(driver, 5).until(EC.staleness_of(month))  # waits for the element to no longer be in the DOM
-            
-        except Exception as e:
-            print(f"Failed to click on element {month.text}: {e}")
-
-
-time.sleep(300)
+time.sleep(60)
 
 driver.quit()
