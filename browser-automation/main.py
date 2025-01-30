@@ -9,7 +9,9 @@ from selenium.webdriver.chrome.options import Options
 from helper_functions import btn_click_classname, btn_click_css_selector, btn_click_xpath_selector
 from documents import get_documents
 from csv_module import Csv
+from reports import get_reports
 from transactions import transactions_data
+from shutil import move
 import time
 import os
 
@@ -59,13 +61,19 @@ btn_click_css_selector(driver, By, time, "button.dashboard-show-bank-statement")
 selected_months = driver.find_elements(By.CSS_SELECTOR, 'div.month-timeline-item.completed.hideEvents')
 # Open file to write output
 
+# Get billing data
+btn_click_xpath_selector(driver, By, time, '//*[@id="app"]/div[1]/div/nav/ul/li[2]/a')
+
+# Get all reports
+#get_reports(driver, By, time, WebDriverWait, EC)
+
 # Gets all transaction data and stores them in csv's and images folder under correct months
-transactions_data(driver, By, WebDriverWait, EC, time, selected_months, Csv)
+#transactions_data(driver, By, WebDriverWait, EC, time, selected_months, Csv)
 
 time.sleep(60)
 
 # Gets all documents and sorts them by year by adding them to directories
-get_documents(driver, By, time, WebDriverWait, EC)
+#get_documents(driver, By, time, WebDriverWait, EC)
 
 time.sleep(60)
 
