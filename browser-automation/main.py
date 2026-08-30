@@ -38,7 +38,7 @@ with open('../myStuff.txt') as f:
 
 arguments = lines
 
-service = Service(executable_path="./chromedriver")
+service = Service(executable_path="../chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 driver.maximize_window()
 
