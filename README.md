@@ -6,3 +6,6 @@
 ### To start the script within virtual environment:
 ### e.g: "source ./venv/bin/activate" -> When inside virtual environment run "pip install -r requirements.txt"
 #### Basic virtual environment setup done
+
+
+-- Some dead non completed stuff too
