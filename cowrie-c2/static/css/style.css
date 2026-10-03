@@ -1,0 +1,124 @@
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+body {
+    background-color: #0f172a;
+    color: #e2e8f0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.navbar-custom {
+    background-color: #1e293b;
+    border-bottom: 1px solid #334155;
+}
+.card-custom {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.card-header-custom {
+    background-color: #273548;
+    border-bottom: 1px solid #334155;
+    font-weight: 600;
+    color: #f8fafc;
+}
+.nav-tabs .nav-link {
+    color: #94a3b8;
+    border: none;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+.nav-tabs .nav-link:hover {
+    color: #f8fafc;
+}
+.nav-tabs .nav-link.active {
+    color: #38bdf8 !important;
+    background-color: #1e293b !important;
+    border-bottom: 2px solid #38bdf8;
+}
+.table-custom {
+    color: #cbd5e1;
+    font-size: 0.875rem;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.table-custom th,
+.table-custom td {
+    border-color: #334155;
+    vertical-align: middle;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 0;
+}
+
+.table-custom th {
+    background-color: #111827;
+    border-color: #334155;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.table-responsive {
+    overflow-x: hidden !important;
+    max-width: 100%;
+}
+
+.session-detail-row td {
+    width: 100%;
+}
+
+.session-detail-row .bg-black,
+.session-detail-row code,
+.session-detail-row span,
+.session-detail-row div {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.row > [class*="col-"] {
+    min-width: 0;
+}
+
+.badge-live {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border: 1px solid #059669;
+    font-size: 0.75rem;
+}
+.btn-outline-custom {
+    border-color: #475569;
+    color: #cbd5e1;
+}
+.btn-outline-custom:hover, .btn-outline-custom.active {
+    background-color: #334155;
+    border-color: #64748b;
+    color: #ffffff;
+}
+pre code {
+    color: #38bdf8;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.file-item {
+    background-color: #111827;
+    border-color: #334155;
+    color: #cbd5e1;
+    font-size: 0.875rem;
+}
+.file-item:hover, .file-item.active {
+    background-color: #334155;
+    color: #ffffff;
+    border-color: #475569;
+}

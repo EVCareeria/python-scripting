@@ -1,0 +1,80 @@
+/* Mobile & Tablet Factor Adjustments (Max Width: 991.98px) */
+@media (max-width: 991.98px) {
+    html, body {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+
+    body {
+        font-size: 0.92rem;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    
+    /* Stack navigation tabs neatly on mobile */
+    #c2Tabs {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    #c2Tabs .nav-item {
+        width: 100%;
+        margin-bottom: 4px;
+    }
+
+    #c2Tabs .nav-link {
+        text-align: center;
+        width: 100%;
+        padding: 8px;
+    }
+
+    /* Make table scroll containers more touch-friendly and compact */
+    .table-responsive {
+        max-height: 400px !important;
+        overflow-x: hidden !important;
+    }
+
+    .table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .table td, .table th {
+        font-size: 0.85rem;
+        padding: 6px 8px !important;
+        white-space: normal !important;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    .table td code,
+    .table td div,
+    .table td span,
+    .table td pre {
+        white-space: normal !important;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    /* Ensure control buttons wrap smoothly on narrow viewports */
+    #system .d-flex.flex-wrap {
+        gap: 6px !important;
+    }
+    
+    #system .btn {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+
+    .navbar-toggler {
+        border-color: #4a5568 !important; /* Lighter grey/blue border */
+    }
+
+    .navbar-toggler-icon {
+        /* Inverts the default dark hamburger bars to bright white */
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+}

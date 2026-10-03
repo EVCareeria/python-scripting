@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.12.3 on linux)" generated="2025-04-21T22:29:38.069459" rpa="false" schemaversion="5">
+<suite id="s1" name="Twitch" source="/home/erik/Desktop/python/python-scripting/twitch-checker/twitch.robot">
+<test id="s1-t1" name="Verify Can Open Google In Headless Chrome" line="11">
+<kw name="Log To Console" owner="BuiltIn">
+<arg>Starting Chrome test...</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-04-21T22:29:38.133159" elapsed="0.000168"/>
+</kw>
+<kw name="Open Chrome To Google">
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-04-21T22:29:38.134122" level="INFO">${chrome_options} = &lt;selenium.webdriver.chrome.options.Options object at 0x72f079e87e90&gt;</msg>
+<var>${chrome_options}</var>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys, selenium.webdriver</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-04-21T22:29:38.133902" elapsed="0.000243"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${chrome_options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-gpu</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2025-04-21T22:29:38.134212" elapsed="0.000078"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${chrome_options}</arg>
+<arg>add_argument</arg>
+<arg>--no-sandbox</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2025-04-21T22:29:38.134335" elapsed="0.000104"/>
+</kw>
+<kw name="Call Method" owner="BuiltIn">
+<arg>${chrome_options}</arg>
+<arg>add_argument</arg>
+<arg>--disable-dev-shm-usage # May be needed in some environments (like Docker)</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="PASS" start="2025-04-21T22:29:38.134527" elapsed="0.000083"/>
+</kw>
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-04-21T22:29:38.134828" level="INFO">Opening browser 'Chrome' to base url 'https://www.google.com'.</msg>
+<arg>${TARGET_URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=${chrome_options}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-04-21T22:29:38.134674" elapsed="1.086166"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-04-21T22:29:39.221149" level="INFO">Browser opened in headless mode to https://www.google.com</msg>
+<arg>Browser opened in headless mode to ${TARGET_URL}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-04-21T22:29:39.221000" elapsed="0.000176"/>
+</kw>
+<status status="PASS" start="2025-04-21T22:29:38.133541" elapsed="1.087684"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-04-21T22:29:39.221326" elapsed="0.034075"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=/html/body/div[2]/div[2]/div[3]/span/div/div/div/div[3]/div[1]/button[1]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-04-21T22:29:39.255573" elapsed="0.010137"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-04-21T22:29:39.265984" level="INFO">Clicking element 'xpath=/html/body/div[2]/div[2]/div[3]/span/div/div/div/div[3]/div[1]/button[1]'.</msg>
+<arg>xpath=/html/body/div[2]/div[2]/div[3]/span/div/div/div/div[3]/div[1]/button[1]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-04-21T22:29:39.265856" elapsed="0.053668"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div[1]/div[2]/textarea</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-04-21T22:29:39.319741" elapsed="0.015543"/>
+</kw>
+<kw name="Title Should Be" owner="SeleniumLibrary">
+<msg time="2025-04-21T22:29:39.337332" level="INFO">Page title is 'Google'.</msg>
+<arg>Google</arg>
+<doc>Verifies that the current page title equals ``title``.</doc>
+<status status="PASS" start="2025-04-21T22:29:39.335475" elapsed="0.001899"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>Successfully reached Google.com and verified title.</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-04-21T22:29:39.337477" elapsed="0.000082"/>
+</kw>
+<status status="PASS" start="2025-04-21T22:29:38.132611" elapsed="1.205029"/>
+</test>
+<doc>A simple test to open Google.com in headless Chrome.</doc>
+<status status="PASS" start="2025-04-21T22:29:38.069934" elapsed="1.267917"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Twitch" id="s1" pass="1" fail="0" skip="0">Twitch</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

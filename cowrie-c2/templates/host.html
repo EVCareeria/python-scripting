@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cowrie C2 - Host Diagnostics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-light p-4">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Host Diagnostics & Security Controls</h1>
+            <a href="/dashboard" class="btn btn-outline-light">Back to Dashboard</a>
+        </div>
+
+        <div class="card bg-secondary text-light mb-4">
+            <div class="card-header">Commands & Log Viewers</div>
+            <div class="card-body">
+                <div class="mb-3 d-flex flex-wrap gap-2">
+                    <button class="btn btn-outline-light" onclick="fetchCommand('fail2ban_status')">Fail2Ban Status</button>
+                    <button class="btn btn-outline-light" onclick="fetchCommand('fail2ban_sshd')">Fail2Ban SSHD</button>
+                    <button class="btn btn-outline-light" onclick="fetchCommand('fail2ban_logs')">Fail2Ban Logs</button>
+                    <button class="btn btn-outline-light" onclick="fetchCommand('cowrie_logs')">Cowrie Logs</button>
+                    <button class="btn btn-outline-light" onclick="fetchCommand('suricata_raw_logs')">Suricata Raw Logs</button>
+                    <button class="btn btn-outline-light" onclick="fetchCommand('w')">Run `w` (Active Users)</button>
+                    <button class="btn btn-outline-light" onclick="fetchCommand('last')">Run `last` (Logins)</button>
+                    <button class="btn btn-outline-light" onclick="fetchCommand('docker_ps')">Container Status</button>
+                </div>
+                <div class="bg-dark p-3 rounded border border-secondary">
+                    <pre id="command-output" class="text-light mb-0"><code>Select a command or log viewer above to view output...</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function fetchCommand(cmdType) {
+            const outputBox = document.getElementById('command-output');
+            outputBox.innerText = "Loading output safely...";
+            fetch(`/api/host/${cmdType}`)
+                .then(response => response.json())
+                .then(data => {
+                    outputBox.innerText = data.output || "No output returned.";
+                })
+                .catch(err => {
+                    outputBox.innerText = "Error fetching command output: " + err;
+                });
+        }
+    </script>
+</body>
+</html>
