@@ -1,4 +1,6 @@
+import argparse
 import os
+import sys
 
 from flask import Flask, g, jsonify, redirect, render_template, request, url_for
 
@@ -14,6 +16,8 @@ from database import (
     init_db,
     parse_session_cookie_value,
 )
+import cowrie_telemetry
+import suricata_telemetry
 from cowrie_telemetry import get_cowrie_digested_logs, list_cowrie_log_files, get_specific_cowrie_log
 from host_telemetry import run_host_command
 from suricata_telemetry import get_suricata_alerts
@@ -179,5 +183,68 @@ def cowrie_file_drilldown_api(filename):
     return jsonify(get_specific_cowrie_log(filename, limit=100))
 
 
-if __name__ == '__main__':
+@app.route('/api/suricata/alerts')
+def suricata_alerts_api():
+    """API endpoint for live polling of recent Suricata alerts."""
+    return jsonify(get_suricata_alerts(limit=25))
+
+
+def resolve_log_path(path, default_filename):
+    """Accept either the log file itself or the directory that holds it."""
+    path = os.path.abspath(os.path.expanduser(path))
+    if os.path.isfile(path) or (path.endswith('.json') and not os.path.isdir(path)):
+        return path
+    return os.path.join(path, default_filename)
+
+
+def check_log_path(label, path):
+    """Return an error message if the log directory or an existing log file is unreadable, else None."""
+    log_dir = os.path.dirname(path)
+    if not os.path.isdir(log_dir):
+        return f'{label}: directory not found: {log_dir}'
+    if not os.access(log_dir, os.R_OK | os.X_OK):
+        return f'{label}: no permission to read directory: {log_dir}'
+    if os.path.exists(path) and not os.access(path, os.R_OK):
+        return f'{label}: no permission to read file: {path}'
+    return None
+
+
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(description='Cowrie C2 dashboard')
+    parser.add_argument(
+        '--cowrie-logs',
+        default=cowrie_telemetry.LOG_FILE_PATH,
+        help='Cowrie log directory, or the path to cowrie.json (default: %(default)s)',
+    )
+    parser.add_argument(
+        '--suricata-logs',
+        default=suricata_telemetry.EVE_LOG_PATH,
+        help='Suricata log directory, or the path to eve.json (default: %(default)s)',
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv=None):
+    args = parse_args(argv)
+    cowrie_path = resolve_log_path(args.cowrie_logs, 'cowrie.json')
+    suricata_path = resolve_log_path(args.suricata_logs, 'eve.json')
+
+    errors = [
+        error
+        for error in (check_log_path('Cowrie logs', cowrie_path), check_log_path('Suricata logs', suricata_path))
+        if error
+    ]
+    if errors:
+        for error in errors:
+            print(f'Startup check failed - {error}', file=sys.stderr)
+        sys.exit(1)
+
+    cowrie_telemetry.LOG_FILE_PATH = cowrie_path
+    suricata_telemetry.EVE_LOG_PATH = suricata_path
+    print(f'Cowrie logs:   {cowrie_path}')
+    print(f'Suricata logs: {suricata_path}')
     app.run(host='0.0.0.0', port=5000, debug=False)
+
+
+if __name__ == '__main__':
+    main()
