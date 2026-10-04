@@ -25,3 +25,5 @@ idea
 .idea
 csv_files
 reports
+test_data/
+c2_data.db
